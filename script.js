@@ -10,7 +10,11 @@ const againEl = document.querySelector('.again');
 const highscoreEl = document.querySelector('.highscore');
 
 // Generate secret number
-let secretNumber = Math.trunc(Math.random() * 20 + 1);
+const randromNumber = function () {
+  return Math.trunc(Math.random() * 20 + 1);
+};
+
+let secretNumber = randromNumber();
 // console.log('secret', secretNumber);
 
 // Check guess
@@ -35,23 +39,13 @@ checkEl.addEventListener('click', function () {
       highscoreEl.textContent = highScore;
     }
   }
-  // Guess is low
-  else if (guess < secretNumber) {
+  // Guess is wrong
+  else if (guess !== secretNumber) {
     if (score > 1) {
       score--;
       scoreEl.textContent = score;
-      messageEl.textContent = '📉 Guess is low !';
-    } else {
-      messageEl.textContent = '😟 Game over !';
-      scoreEl.textContent = '0';
-    }
-  }
-  // Guess is High
-  else if (guess > secretNumber) {
-    if (score > 1) {
-      score--;
-      scoreEl.textContent = score;
-      messageEl.textContent = '📈 Guess is High !';
+      messageEl.textContent =
+        guess > secretNumber ? '📉 Guess is High !' : '📉 Guess is low !';
     } else {
       messageEl.textContent = '😟 Game over !';
       scoreEl.textContent = '0';
@@ -61,13 +55,13 @@ checkEl.addEventListener('click', function () {
 
 // Reset game
 againEl.addEventListener('click', function () {
+  secretNumber = randromNumber();
+  score = 20;
   messageEl.textContent = 'Start guessing...';
   guessEl.value = '';
   numberEl.style.width = '15rem';
   bodyEl.style.backgroundColor = '#222';
-  secretNumber = Math.trunc(Math.random() * 20 + 1);
   numberEl.textContent = '?';
-  score = 20;
   scoreEl.textContent = score;
 
   // console.log('Reset', secretNumber);
